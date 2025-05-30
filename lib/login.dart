@@ -221,11 +221,10 @@ class _LoginState extends State<Login> {
                         child: const Text(
                           'Login',
                           style: TextStyle(
-                            letterSpacing: 10,
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                         ),
                       ),
                     ),

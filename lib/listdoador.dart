@@ -36,7 +36,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          'Green Code',
+          'Doar Materialr',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -131,7 +131,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
               context,
               index: 0,
               nome: 'Ana Souza',
-              material: 'Doando: Garrafas PET (15 unidades)',
+              material: 'Doando: Óleo de cozinha (1 litro)',
               localizacao: 'Bairro Jardim das Flores',
               distanciaKm: 2.4,
             ),
@@ -147,7 +147,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
               context,
               index: 2,
               nome: 'Marina Oliveira',
-              material: 'Doando: Tampinhas de plástico (1 sacola cheia)',
+              material: 'Doando: Óleo de cozinha (1 litro)',
               localizacao: 'Vila Verde',
               distanciaKm: 3.7,
             ),

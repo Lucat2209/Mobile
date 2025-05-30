@@ -70,7 +70,7 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          'Green Code',
+          'Coletar Material',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,

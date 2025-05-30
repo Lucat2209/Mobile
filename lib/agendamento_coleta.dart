@@ -97,8 +97,19 @@ class _AgendamentoColetaState extends State<AgendamentoColeta> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, selecione a data e a hora')),
       );
-      return;
+          return;
+    } else{Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          VisualizarAgendamento(coletorEmail: _coletorEmail!),
+                    ),
+                  );
+      /*ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lucas Alterou')),);*/
+
     }
+    
 
     final agendamento = {
       'coletorEmail': _coletorEmail,
@@ -123,8 +134,14 @@ class _AgendamentoColetaState extends State<AgendamentoColeta> {
   @override
   Widget build(BuildContext context) {
     final int horaAtual = DateTime.now().hour;
-    String saudacao =
-        (horaAtual >= 5 && horaAtual < 12) ? "Bom dia" : "Boa noite";
+    String saudacao;
+    if (horaAtual >= 5 && horaAtual < 12) {
+      saudacao = "Bom dia";
+    } else if (horaAtual >= 12 && horaAtual < 18) {
+      saudacao = "Boa tarde";
+    } else {
+      saudacao = "Boa noite";
+    }
 
     return Scaffold(
       appBar: AppBar(
