@@ -52,9 +52,10 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meus Agendamentos'),
+        
         backgroundColor: const Color(0xFF388E3C),
       ),
-      backgroundColor: const Color(0xFFE8F5E9),
+      backgroundColor: const Color.fromARGB(255, 252, 252, 252),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _agendamentos.isEmpty
@@ -78,7 +79,7 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
                           children: [
                             Text('Data: ${agendamento['data']}'),
                             Text('Hora: ${agendamento['hora']}'),
-                            Text('Endereço: ${agendamento['endereco']}'),
+                            
                           ],
                         ),
                       ),

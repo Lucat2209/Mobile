@@ -24,7 +24,10 @@ class ListDoador extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Doações dos Doadores'),
+        title: const Text(
+          'Doações',
+          style: TextStyle(fontSize: 35, color: Colors.white),
+        ),
         backgroundColor: const Color(0xFF4CAF50),
         centerTitle: true,
       ),

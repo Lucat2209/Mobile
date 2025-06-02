@@ -9,7 +9,7 @@ import 'visualizar_agendamento.dart';
 class AgendamentoColeta extends StatefulWidget {
   final String nomePessoa;
 
-  const AgendamentoColeta({Key? key, required this.nomePessoa}) : super(key: key);
+  const AgendamentoColeta({Key? key, required this.nomePessoa, required String coletorEmail}) : super(key: key);
 
   @override
   State<AgendamentoColeta> createState() => _AgendamentoColetaState();

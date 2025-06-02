@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'visualizar_doacao.dart'; // Ajuste o caminho para onde está ListDoador e Doacao
+import 'login.dart';
+import 'perfil.dart';
+import 'visualizar_doacao.dart';
 
 class DonationSuccess extends StatefulWidget {
   const DonationSuccess({super.key});
@@ -11,6 +13,22 @@ class DonationSuccess extends StatefulWidget {
 class _DonationSuccessState extends State<DonationSuccess> {
   @override
   Widget build(BuildContext context) {
+    // Exemplo de lista de doações fictícias
+    final List<Doacao> doacoes = [
+      Doacao(
+        nomeDoador: 'João',
+        material: 'Óleo',
+        quantidade: 5,
+        data: DateTime.now(),
+      ),
+      Doacao(
+        nomeDoador: 'Maria',
+        material: 'Óleo',
+        quantidade: 10,
+        data: DateTime.now().subtract(const Duration(days: 1)),
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
       appBar: AppBar(
@@ -18,6 +36,7 @@ class _DonationSuccessState extends State<DonationSuccess> {
         title: const Text(
           'Green Code',
           style: TextStyle(fontSize: 35, color: Colors.white),
+
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -39,20 +58,28 @@ class _DonationSuccessState extends State<DonationSuccess> {
             icon: const Icon(Icons.menu, color: Colors.white),
             onSelected: (value) {
               if (value == 'perfil') {
-                // Navegar para tela de perfil se implementado
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Perfil()),
+                );
               } else if (value == 'logoff') {
-                // Navegar para login ou tela inicial se implementado
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              } else if (value == 'visualizar') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListDoador(doacoes: doacoes),
+                  ),
+                );
               }
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'perfil',
-                child: Text('Perfil'),
-              ),
-              const PopupMenuItem(
-                value: 'logoff',
-                child: Text('Logoff'),
-              ),
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: 'perfil', child: Text('Perfil')),
+              PopupMenuItem(value: 'visualizar', child: Text('Visualizar Doações')),
+              PopupMenuItem(value: 'logoff', child: Text('Logoff')),
             ],
           )
         ],
@@ -78,22 +105,6 @@ class _DonationSuccessState extends State<DonationSuccess> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Exemplo de lista de doações para passar na navegação
-                    final List<Doacao> doacoes = [
-                      Doacao(
-                        nomeDoador: 'João',
-                        material: 'Óleo',
-                        quantidade: 5,
-                        data: DateTime.now(),
-                      ),
-                      Doacao(
-                        nomeDoador: 'Maria',
-                        material: 'Óleo',
-                        quantidade: 10,
-                        data: DateTime.now().subtract(const Duration(days: 1)),
-                      ),
-                    ];
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -138,15 +149,17 @@ class _DonationSuccessState extends State<DonationSuccess> {
         ),
         child: Center(
           child: Image.asset(
-            'images/logo.png',
+            'images/logo.png', 
             fit: BoxFit.contain,
-            height: 30,
+            height: 40,
+            errorBuilder: (context, error, stackTrace) => const Icon(Icons.error, color: Colors.white),
           ),
         ),
       ),
     );
   }
 }
+
 
 
 /*import 'package:flutter/material.dart';

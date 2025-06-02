@@ -121,14 +121,17 @@ class Selecionaraction extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.recycling, size: 30),
-                      label: const Text('Coletar Materiais'),
+                      icon: const Icon(Icons.recycling, size: 30, color: Colors.white),
+                      label: const Text(
+                    'Coletar Materiais',
+                      style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255), // Aqui você define a cor do texto
+                       ),
+                    ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4CAF50),
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      backgroundColor: const Color(0xFF4CAF50),
                       ),
                     ),
                   ),
@@ -145,15 +148,18 @@ class Selecionaraction extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.volunteer_activism, size: 30),
-                      label: const Text('Doar Materiais'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF009688),
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      icon: const Icon(Icons.volunteer_activism, size: 30, color: Colors.white),
+                      label: const Text(
+                    'Doar Materiais',
+                     style: TextStyle(
+                     fontSize: 20,
+                     fontWeight: FontWeight.bold,
+                     color: Color.fromARGB(255, 255, 255, 255), // Cor do texto alterada
+                    ),
+                   ),
+                     style: ElevatedButton.styleFrom(
+                     backgroundColor: const Color(0xFF009688),
+                    ),
                     ),
                   ),
                   const SizedBox(height: 10),

@@ -137,7 +137,14 @@ class _DoarMaterialState extends State<DoarMaterial> {
   @override
   Widget build(BuildContext context) {
     final int horaAtual = DateTime.now().hour;
-    String saudacao = (horaAtual >= 5 && horaAtual < 12) ? "Bom dia" : "Boa noite";
+    String saudacao;
+    if (horaAtual >= 5 && horaAtual < 12) {
+      saudacao = "Bom dia";
+    } else if (horaAtual >= 12 && horaAtual < 18) {
+      saudacao = "Boa tarde";
+    } else {
+      saudacao = "Boa noite";
+    }
 
     bool algumSelecionado = _materiaisSelecionados.containsValue(true);
 
