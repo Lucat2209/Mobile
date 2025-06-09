@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'perfil.dart';
 import 'visualizar_doacao.dart';
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
 
 class DonationSuccess extends StatefulWidget {
   const DonationSuccess({super.key});
@@ -36,7 +38,6 @@ class _DonationSuccessState extends State<DonationSuccess> {
         title: const Text(
           'Green Code',
           style: TextStyle(fontSize: 35, color: Colors.white),
-
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -74,11 +75,23 @@ class _DonationSuccessState extends State<DonationSuccess> {
                     builder: (context) => ListDoador(doacoes: doacoes),
                   ),
                 );
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QuemSomosPage()),
+                );
               }
             },
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'perfil', child: Text('Perfil')),
               PopupMenuItem(value: 'visualizar', child: Text('Visualizar Doações')),
+              PopupMenuItem(value: 'material_educativo', child: Text('Material Educativo')),
+              PopupMenuItem(value: 'quem_somos', child: Text('Quem Somos')),
               PopupMenuItem(value: 'logoff', child: Text('Logoff')),
             ],
           )

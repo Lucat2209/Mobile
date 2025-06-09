@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:greencode/redefinirpassword.dart';  // Tela para inserir email e gerar token
+import 'package:greencode/redefinirpassword.dart';
 import 'package:greencode/Cadastro.dart';
 import 'package:greencode/transitionmaterial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dadosbase.dart'; // para getUserByEmail
+import 'dadosbase.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,32 +15,26 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerSenha = TextEditingController();
-
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-
-    // Chama a verificação após o frame inicial ser renderizado
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkLoggedUser();
     });
   }
 
-  // Função para salvar o usuário logado no SharedPreferences
   Future<void> saveLoggedUser(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('logged_user_email', email);
   }
 
-  // Função para buscar o usuário logado no SharedPreferences
   Future<String?> getLoggedUser() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('logged_user_email');
   }
 
-  // Verifica se já existe usuário logado e navega direto
   Future<void> _checkLoggedUser() async {
     final email = await getLoggedUser();
     if (email != null) {
@@ -86,6 +80,53 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF81C784),
+                    Color(0xFF388E3C),
+                    Color.fromARGB(255, 74, 110, 76),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.menu_book),
+              title: const Text('Material Educativo'),
+              onTap: () {
+                Navigator.pushNamed(context, '/material');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('Quem Somos'),
+              onTap: () {
+                Navigator.pushNamed(context, '/quem_somos');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Sair'),
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.remove('logged_user_email');
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              },
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           Center(
@@ -107,23 +148,16 @@ class _LoginState extends State<Login> {
                     child: TextField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                         suffixIcon: const Icon(Icons.mail_lock),
                         label: const Text('E-mail'),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 4,
-                              color: Color.fromARGB(255, 67, 96, 107)),
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(35), right: Radius.circular(35)),
+                          borderSide: const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                          borderRadius: BorderRadius.circular(35),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 4,
-                              color: Color.fromARGB(255, 67, 96, 107)),
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(35), right: Radius.circular(35)),
+                          borderSide: const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                          borderRadius: BorderRadius.circular(35),
                         ),
                       ),
                       style: const TextStyle(fontSize: 25),
@@ -136,28 +170,19 @@ class _LoginState extends State<Login> {
                       obscureText: _obscureText,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                         suffixIcon: IconButton(
                           onPressed: _toggleVisibility,
-                          icon: Icon(
-                            _obscureText ? Icons.visibility_off : Icons.visibility,
-                          ),
+                          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
                         ),
                         label: const Text('Senha'),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 4,
-                              color: Color.fromARGB(255, 67, 96, 107)),
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(35), right: Radius.circular(35)),
+                          borderSide: const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                          borderRadius: BorderRadius.circular(35),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 4,
-                              color: Color.fromARGB(255, 67, 96, 107)),
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(35), right: Radius.circular(35)),
+                          borderSide: const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                          borderRadius: BorderRadius.circular(35),
                         ),
                       ),
                       style: const TextStyle(fontSize: 25),
@@ -178,41 +203,15 @@ class _LoginState extends State<Login> {
                             final user = await getUserByEmail(email);
                             if (user != null && user['senha'] == senha) {
                               await saveLoggedUser(email);
-
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TransitionMaterial()),
+                                MaterialPageRoute(builder: (context) => const TransitionMaterial()),
                               );
                             } else {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text('Erro'),
-                                  content: const Text('Email ou senha inválidos.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ),
-                              );
+                              _showDialog('Erro', 'Email ou senha inválidos.');
                             }
                           } catch (e) {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: const Text('Erro'),
-                                content: Text('Erro ao validar usuário: $e'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
+                            _showDialog('Erro', 'Erro ao validar usuário: $e');
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -221,10 +220,10 @@ class _LoginState extends State<Login> {
                         child: const Text(
                           'Login',
                           style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -232,11 +231,9 @@ class _LoginState extends State<Login> {
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
-                      // Corrigido para ir para a tela correta de inserir email para token
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const RedefinirPassword()),
+                        MaterialPageRoute(builder: (context) => const RedefinirPassword()),
                       );
                     },
                     child: const Text(
@@ -293,6 +290,22 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
           ),
         ],
       ),

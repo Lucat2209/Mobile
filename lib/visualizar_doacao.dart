@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'perfil.dart';
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
+import 'login.dart';
+
 // Modelo simples de Doacao
 class Doacao {
   final String nomeDoador;
@@ -26,10 +31,80 @@ class ListDoador extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Doações',
-          style: TextStyle(fontSize: 35, color: Colors.white),
+          style: TextStyle(fontSize: 30, color: Colors.white),
         ),
-        backgroundColor: const Color(0xFF4CAF50),
         centerTitle: true,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'perfil') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Perfil()),
+                );
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
+                );
+              } else if (value == 'sair') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Login()),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'perfil',
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  title: Text('Perfil'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.book),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Quem Somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'sair',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Sair'),
+                ),
+              ),
+            ],
+          ),
+        ],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF81C784),
+                Color(0xFF388E3C),
+                Color.fromARGB(255, 74, 110, 76),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: doacoes.isEmpty
           ? const Center(
@@ -56,9 +131,10 @@ class ListDoador extends StatelessWidget {
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
-                    title: Text('${doacao.nomeDoador}'),
+                    title: Text(doacao.nomeDoador),
                     subtitle: Text(
-                        '${doacao.material} — Quantidade: ${doacao.quantidade}\nData: ${_formatarData(doacao.data)}'),
+                      '${doacao.material} — Quantidade: ${doacao.quantidade}\nData: ${_formatarData(doacao.data)}',
+                    ),
                     isThreeLine: true,
                   ),
                 );
@@ -68,10 +144,10 @@ class ListDoador extends StatelessWidget {
   }
 
   String _formatarData(DateTime data) {
-    // Exemplo de formatação simples: dd/mm/yyyy
     return '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}';
   }
 }
+
 
 /*import 'package:flutter/material.dart';
 

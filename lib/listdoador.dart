@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'agendamento_coleta.dart';
 import 'perfil.dart';
 import 'login.dart';
 import 'visualizar_agendamento.dart';
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
 
 class PerfisCorrespondentes extends StatefulWidget {
   final List<String> materiaisSelecionados;
@@ -61,6 +64,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
         ),
         actions: [
           PopupMenuButton<String>(
+            icon: const Icon(Icons.menu, color: Colors.white),
             onSelected: (value) {
               if (value == 'perfil') {
                 Navigator.push(
@@ -81,6 +85,16 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                     const SnackBar(content: Text('Email do coletor não encontrado.')),
                   );
                 }
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
+                );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
                   context,
@@ -104,6 +118,20 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                 ),
               ),
               const PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.book),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Quem Somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
                 value: 'sair',
                 child: ListTile(
                   leading: Icon(Icons.logout),
@@ -111,7 +139,6 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                 ),
               ),
             ],
-            icon: const Icon(Icons.menu, color: Colors.white),
           ),
         ],
       ),
@@ -194,7 +221,8 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
               context,
               MaterialPageRoute(
                 builder: (_) => AgendamentoColeta(
-                  coletorEmail: coletorEmail ?? '', nomePessoa: '',
+                  coletorEmail: coletorEmail ?? '',
+                  nomePessoa: nome,
                 ),
               ),
             );
@@ -253,8 +281,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     children: [
                       const Icon(Icons.location_on, color: Colors.green),
@@ -277,6 +304,7 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
     );
   }
 }
+
 
 
 /*import 'package:flutter/material.dart';

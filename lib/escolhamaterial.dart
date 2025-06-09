@@ -4,7 +4,8 @@ import 'login.dart';
 import 'perfil.dart';
 import 'visualizar_agendamento.dart';
 import 'listdoador.dart';
-
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
 
 class EscolhaMaterial extends StatefulWidget {
   const EscolhaMaterial({super.key});
@@ -115,6 +116,16 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
                   );
                   logout(context);
                 }
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QuemSomosPage()),
+                );
               } else if (value == 'sair') {
                 logout(context);
               }
@@ -133,6 +144,20 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
                 child: ListTile(
                   leading: Icon(Icons.event_note),
                   title: Text('Visualizar Agendamentos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.menu_book),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Quem Somos'),
                 ),
               ),
               const PopupMenuItem<String>(

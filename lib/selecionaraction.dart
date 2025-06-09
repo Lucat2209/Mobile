@@ -58,12 +58,12 @@ class Selecionaraction extends StatelessWidget {
               } else if (value == 'quem_somos') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const QuemSomos()),
+                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
                 );
               } else if (value == 'material_educativo') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const MaterialEducativo()),
+                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
                 );
               } else if (value == 'sair') {
                 logout(context);
@@ -223,6 +223,7 @@ class Selecionaraction extends StatelessWidget {
     );
   }
 }
+
 
 
 /*import 'package:flutter/material.dart';

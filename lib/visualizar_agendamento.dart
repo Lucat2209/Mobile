@@ -1,14 +1,16 @@
-// visualizar_agendamento.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
+import 'perfil.dart';
+import 'login.dart';
 
 class VisualizarAgendamento extends StatefulWidget {
   final String coletorEmail;
 
-  const VisualizarAgendamento({Key? key, required this.coletorEmail})
-      : super(key: key);
+  const VisualizarAgendamento({Key? key, required this.coletorEmail}) : super(key: key);
 
   @override
   State<VisualizarAgendamento> createState() => _VisualizarAgendamentoState();
@@ -30,8 +32,7 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
 
     if (agendamentosJson != null) {
       final List<dynamic> decoded = jsonDecode(agendamentosJson);
-      final List<Map<String, dynamic>> todosAgendamentos =
-          decoded.cast<Map<String, dynamic>>();
+      final List<Map<String, dynamic>> todosAgendamentos = decoded.cast<Map<String, dynamic>>();
 
       setState(() {
         _agendamentos = todosAgendamentos
@@ -52,8 +53,65 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meus Agendamentos'),
-        
         backgroundColor: const Color(0xFF388E3C),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
+                );
+              } else if (value == 'perfil') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Perfil()),
+                );
+              } else if (value == 'sair') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Login()),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.book),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Quem Somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'perfil',
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  title: Text('Perfil'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'sair',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Sair'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       backgroundColor: const Color.fromARGB(255, 252, 252, 252),
       body: _isLoading
@@ -65,8 +123,7 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
                   itemBuilder: (context, index) {
                     final agendamento = _agendamentos[index];
                     return Card(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       elevation: 4,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -79,7 +136,6 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
                           children: [
                             Text('Data: ${agendamento['data']}'),
                             Text('Hora: ${agendamento['hora']}'),
-                            
                           ],
                         ),
                       ),
