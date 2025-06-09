@@ -1,4 +1,478 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'cadastroendereco.dart';
+
+class Cadastro extends StatefulWidget {
+  const Cadastro({super.key});
+
+  @override
+  State<Cadastro> createState() => _CadastroState();
+}
+
+class _CadastroState extends State<Cadastro> {
+  final TextEditingController _controllerNome = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
+  final TextEditingController _controllerConfirmarSenha = TextEditingController();
+  final TextEditingController _controllerTelefone = TextEditingController();
+
+  final FocusNode _senhaFocusNode = FocusNode();
+
+  String? _selectedRole;
+  String? _senhaErro;
+  String? _emailErro;
+  String? _nomeErro;
+
+  bool _obscureSenha = true;
+  bool _obscureConfirmarSenha = true;
+  bool _mostrarRequisitosSenha = false;
+
+  bool isButtonEnabled = true;
+
+  bool _nomeDigitado = false;
+  bool _emailDigitado = false;
+  bool _senhaDigitada = false;
+  bool _confirmarSenhaDigitada = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controllerNome.addListener(() {
+      setState(() {
+        _nomeDigitado = _controllerNome.text.isNotEmpty;
+        _nomeErro = _controllerNome.text.isEmpty ? 'O nome é obrigatório' : null;
+      });
+      _checkFields();
+    });
+
+    _controllerEmail.addListener(() {
+      setState(() {
+        _emailDigitado = _controllerEmail.text.isNotEmpty;
+      });
+      _checkFields();
+      _validarEmailUnico(_controllerEmail.text);
+    });
+
+    _controllerSenha.addListener(() {
+      setState(() {
+        _senhaDigitada = _controllerSenha.text.isNotEmpty;
+      });
+      _checkFields();
+    });
+
+    _controllerConfirmarSenha.addListener(() {
+      setState(() {
+        _confirmarSenhaDigitada = _controllerConfirmarSenha.text.isNotEmpty;
+      });
+      _checkFields();
+    });
+
+    _controllerTelefone.addListener(_checkFields);
+
+    _senhaFocusNode.addListener(() {
+      setState(() {
+        _mostrarRequisitosSenha = _senhaFocusNode.hasFocus || _controllerSenha.text.isNotEmpty;
+      });
+    });
+
+    _checkFields();
+  }
+
+  @override
+  void dispose() {
+    _controllerNome.dispose();
+    _controllerEmail.dispose();
+    _controllerSenha.dispose();
+    _controllerConfirmarSenha.dispose();
+    _controllerTelefone.dispose();
+    _senhaFocusNode.dispose();
+    super.dispose();
+  }
+
+  bool _validarSenha(String senha) {
+    final hasAtSymbol = senha.contains('@');
+    final hasUppercase = senha.contains(RegExp(r'[A-Z]'));
+    final hasDigit = senha.contains(RegExp(r'[0-9]'));
+    return hasAtSymbol && hasUppercase && hasDigit;
+  }
+
+  Future<void> _validarEmailUnico(String email) async {
+    if (email.isEmpty) {
+      setState(() {
+        _emailErro = 'O e-mail é obrigatório';
+      });
+      return;
+    }
+    if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(email)) {
+      setState(() {
+        _emailErro = 'E-mail inválido';
+      });
+      return;
+    }
+
+    await Future.delayed(const Duration(seconds: 1));
+    if (email.toLowerCase() == 'exemplo@dominio.com') {
+      setState(() {
+        _emailErro = 'E-mail já cadastrado';
+      });
+    } else {
+      setState(() {
+        _emailErro = null;
+      });
+    }
+  }
+
+  void _checkFields() {
+    setState(() {
+      bool senhasIguais = _controllerSenha.text == _controllerConfirmarSenha.text;
+      // ignore: unused_local_variable
+      bool senhaValida = _validarSenha(_controllerSenha.text);
+      _senhaErro = senhasIguais ? null : 'As senhas não são iguais';
+      isButtonEnabled = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool senhaValida = _validarSenha(_controllerSenha.text);
+    bool senhasIguais = _controllerSenha.text == _controllerConfirmarSenha.text;
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFE8F5E9),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text('Cadastro', style: TextStyle(fontSize: 35, color: Colors.white)),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF81C784), Color(0xFF388E3C), Color.fromARGB(255, 74, 110, 76)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Icon(Icons.recycling, size: 200, color: Color(0xFF388E3C)),
+              const SizedBox(height: 20),
+
+              _buildTextField(
+                _controllerNome,
+                'Nome',
+                Icons.person,
+                isRequired: true,
+                hasUserTyped: _nomeDigitado,
+                errorText: _nomeErro,
+              ),
+
+              const SizedBox(height: 20),
+
+              _buildTextField(
+                _controllerEmail,
+                'E-mail',
+                Icons.email,
+                isRequired: true,
+                hasUserTyped: _emailDigitado,
+                errorText: _emailErro,
+              ),
+
+              const SizedBox(height: 20),
+
+              _buildPasswordField(
+                controller: _controllerSenha,
+                label: 'Senha',
+                obscureText: _obscureSenha,
+                toggleVisibility: () => setState(() => _obscureSenha = !_obscureSenha),
+                errorText: _senhaDigitada
+                    ? (_controllerSenha.text.isEmpty
+                        ? 'A senha é obrigatória'
+                        : (!senhaValida
+                            ? 'A senha deve conter "@", letra maiúscula e número'
+                            : null))
+                    : null,
+                focusNode: _senhaFocusNode,
+              ),
+
+              if (_mostrarRequisitosSenha) ...[
+                const SizedBox(height: 10),
+                _buildSenhaRequisito('Deve conter "@"', _controllerSenha.text.contains('@')),
+                _buildSenhaRequisito('Pelo menos uma letra maiúscula', _controllerSenha.text.contains(RegExp(r'[A-Z]'))),
+                _buildSenhaRequisito('Pelo menos um número', _controllerSenha.text.contains(RegExp(r'[0-9]'))),
+              ],
+
+              const SizedBox(height: 20),
+
+              _buildPasswordField(
+                controller: _controllerConfirmarSenha,
+                label: 'Confirmar Senha',
+                obscureText: _obscureConfirmarSenha,
+                toggleVisibility: () => setState(() => _obscureConfirmarSenha = !_obscureConfirmarSenha),
+                errorText: !senhasIguais && _confirmarSenhaDigitada ? _senhaErro : null,
+              ),
+
+              const SizedBox(height: 20),
+
+              _buildTextField(
+                _controllerTelefone,
+                'Telefone',
+                Icons.phone,
+                inputFormatters: [TelefoneInputFormatter()],
+                keyboardType: TextInputType.phone,
+              ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioListTile<String>(
+                      title: const Text('Coletor'),
+                      value: 'Coletor',
+                      groupValue: _selectedRole,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedRole = value;
+                        });
+                        _checkFields();
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioListTile<String>(
+                      title: const Text('Doador'),
+                      value: 'Doador',
+                      groupValue: _selectedRole,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedRole = value;
+                        });
+                        _checkFields();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_controllerNome.text.isEmpty) {
+                      _showErrorDialog('Por favor, preencha o nome.');
+                      return;
+                    }
+                    if (_controllerEmail.text.isEmpty || _emailErro != null) {
+                      _showErrorDialog('Por favor, insira um e-mail válido e único.');
+                      return;
+                    }
+                    if (_controllerSenha.text.isEmpty || !_validarSenha(_controllerSenha.text)) {
+                      _showErrorDialog('A senha deve conter "@", letra maiúscula e número.');
+                      return;
+                    }
+                    if (_controllerSenha.text != _controllerConfirmarSenha.text) {
+                      _showErrorDialog('As senhas não coincidem.');
+                      return;
+                    }
+                    if (_selectedRole == null) {
+                      _showErrorDialog('Por favor, selecione um perfil.');
+                      return;
+                    }
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CadastroEndereco(
+                          nome: _controllerNome.text,
+                          email: _controllerEmail.text,
+                          senha: _controllerSenha.text,
+                          telefone: _controllerTelefone.text,
+                          role: _selectedRole!,
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 4, 167, 59),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                  ),
+                  child: const Text(
+                    'Próximo',
+                    style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 4),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 60,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF81C784), Color(0xFF388E3C), Color.fromARGB(255, 74, 110, 76)],
+          ),
+        ),
+        child: Center(
+          child: Image.asset('images/logo.png', height: 30),
+        ),
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Erro'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label,
+    IconData icon, {
+    bool isRequired = false,
+    bool hasUserTyped = false,
+    String? errorText,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+  }) {
+    bool showErrorBorder = errorText != null;
+
+    return TextField(
+      controller: controller,
+      onChanged: (_) => _checkFields(),
+      decoration: InputDecoration(
+        labelText: label,
+        errorText: errorText,
+        suffixIcon: Icon(icon),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
+          borderSide: BorderSide(
+            width: 4,
+            color: showErrorBorder ? Colors.red : const Color.fromARGB(255, 67, 96, 107),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
+          borderSide: BorderSide(
+            width: 4,
+            color: showErrorBorder ? Colors.red : const Color(0xFF388E3C),
+          ),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+      ),
+      style: const TextStyle(fontSize: 25),
+      keyboardType: keyboardType ?? TextInputType.text,
+      inputFormatters: inputFormatters ?? (label == 'E-mail' ? [FilteringTextInputFormatter.deny(RegExp(r'\s'))] : []),
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required String label,
+    required bool obscureText,
+    required VoidCallback toggleVisibility,
+    String? errorText,
+    FocusNode? focusNode,
+  }) {
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      obscureText: obscureText,
+      onChanged: (_) => _checkFields(),
+      decoration: InputDecoration(
+        labelText: label,
+        errorText: errorText,
+        suffixIcon: IconButton(
+          icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
+          onPressed: toggleVisibility,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
+          borderSide: BorderSide(
+            color: errorText != null ? Colors.red : const Color.fromARGB(255, 67, 96, 107),
+            width: 4,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
+          borderSide: BorderSide(
+            color: errorText != null ? Colors.red : const Color(0xFF388E3C),
+            width: 4,
+          ),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+      ),
+      style: const TextStyle(fontSize: 25),
+      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
+    );
+  }
+
+  Widget _buildSenhaRequisito(String texto, bool atendido) {
+    return Row(
+      children: [
+        Icon(atendido ? Icons.check_circle : Icons.cancel, color: atendido ? Colors.green : Colors.red, size: 20),
+        const SizedBox(width: 8),
+        Text(
+          texto,
+          style: TextStyle(fontSize: 16, color: atendido ? Colors.green : Colors.red),
+        ),
+      ],
+    );
+  }
+}
+
+class TelefoneInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    String digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+
+    if (digits.length > 11) digits = digits.substring(0, 11);
+
+    String formatted = '';
+    if (digits.length >= 1) formatted += '(';
+    if (digits.length >= 2) {
+      formatted += digits.substring(0, 2) + ') ';
+    } else if (digits.length == 1) {
+      formatted += digits.substring(0, 1);
+    }
+
+    if (digits.length > 2 && digits.length <= 6) {
+      formatted += digits.substring(2);
+    } else if (digits.length >= 7) {
+      formatted += digits.substring(2, 7) + '-';
+      formatted += digits.substring(7);
+    }
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
+
+
+/*import 'package:flutter/material.dart';
 import 'cadastroendereco.dart';
 
 class Cadastro extends StatefulWidget {
@@ -321,7 +795,7 @@ class _CadastroState extends State<Cadastro> {
       style: const TextStyle(fontSize: 25),
     );
   }
-}
+}*/
 
 
 
