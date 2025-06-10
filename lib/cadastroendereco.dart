@@ -16,7 +16,7 @@ class CadastroEndereco extends StatefulWidget {
     required this.email,
     required this.senha,
     required this.telefone,
-    required String role,
+    required String role, required String cpf,
   });
 
   @override

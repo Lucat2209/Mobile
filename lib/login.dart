@@ -4,6 +4,8 @@ import 'package:greencode/Cadastro.dart';
 import 'package:greencode/transitionmaterial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dadosbase.dart';
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -80,53 +82,50 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF81C784),
-                    Color(0xFF388E3C),
-                    Color.fromARGB(255, 74, 110, 76),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+
+      // Drawer com tamanho definido
+      endDrawer: SizedBox(
+        width: 250,
+        child: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF81C784),
+                      Color(0xFF388E3C),
+                      Color.fromARGB(255, 74, 110, 76),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+              ListTile(
+                leading: const Icon(Icons.menu_book),
+                title: const Text('Material Educativo'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/material');
+                },
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.menu_book),
-              title: const Text('Material Educativo'),
-              onTap: () {
-                Navigator.pushNamed(context, '/material');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('Quem Somos'),
-              onTap: () {
-                Navigator.pushNamed(context, '/quem_somos');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Sair'),
-              onTap: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.remove('logged_user_email');
-                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-              },
-            ),
-          ],
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text('Quem Somos'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/quem_somos');
+                },
+              ),
+            ],
+          ),
         ),
       ),
+
       body: Stack(
         children: [
           Center(
@@ -312,6 +311,7 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
 
 
 /*import 'package:flutter/material.dart';
