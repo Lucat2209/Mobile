@@ -211,94 +211,63 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    _buildTextFormField(
-                      controller: _controllerCep,
-                      label: 'CEP',
-                      campo: 'CEP',
-                      tipo: TextInputType.number,
-                    ),
-                    const SizedBox(height: 20),
-                    _buildTextFormField(
-                      controller: _controllerRua,
-                      label: 'Rua',
-                      campo: 'Rua',
-                    ),
-                    const SizedBox(height: 20),
-                    _buildTextFormField(
-                      controller: _controllerNumero,
-                      label: 'Número',
-                      campo: 'Número',
-                      tipo: TextInputType.number,
-                    ),
-                    const SizedBox(height: 20),
-                    _buildTextFormField(
-                      controller: _controllerCidade,
-                      label: 'Cidade',
-                      campo: 'Cidade',
-                    ),
-                    const SizedBox(height: 20),
-                    _buildTextFormField(
-                      controller: _controllerEstado,
-                      label: 'Estado',
-                      campo: 'Estado',
-                    ),
-                    const SizedBox(height: 40),
-                    SizedBox(
-                      height: 60,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _salvarEnderecoEExibirPopup,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 4, 167, 59),
-                        ),
-                        child: const Text(
-                          'Finalizar Cadastro',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                _buildTextFormField(
+                  controller: _controllerCep,
+                  label: 'CEP',
+                  campo: 'CEP',
+                  tipo: TextInputType.number,
                 ),
-              ),
+                const SizedBox(height: 20),
+                _buildTextFormField(
+                  controller: _controllerRua,
+                  label: 'Rua',
+                  campo: 'Rua',
+                ),
+                const SizedBox(height: 20),
+                _buildTextFormField(
+                  controller: _controllerNumero,
+                  label: 'Número',
+                  campo: 'Número',
+                  tipo: TextInputType.number,
+                ),
+                const SizedBox(height: 20),
+                _buildTextFormField(
+                  controller: _controllerCidade,
+                  label: 'Cidade',
+                  campo: 'Cidade',
+                ),
+                const SizedBox(height: 20),
+                _buildTextFormField(
+                  controller: _controllerEstado,
+                  label: 'Estado',
+                  campo: 'Estado',
+                ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  height: 60,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _salvarEnderecoEExibirPopup,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 4, 167, 59),
+                    ),
+                    child: const Text(
+                      'Finalizar Cadastro',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          // Rodapé
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 60,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF81C784),
-                    Color(0xFF388E3C),
-                    Color.fromARGB(255, 74, 110, 76),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'images/logo.png',
-                  fit: BoxFit.contain,
-                  height: 30,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
