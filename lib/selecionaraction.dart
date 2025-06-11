@@ -103,127 +103,96 @@ class Selecionaraction extends StatelessWidget {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.recycling,
-                    size: 100,
-                    color: Color(0xFF388E3C),
-                  ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Escolha uma opção para continuar:',
-                    style: TextStyle(
-                      fontSize: 22,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.recycling,
+                size: 100,
+                color: Color(0xFF388E3C),
+              ),
+              const SizedBox(height: 40),
+              const Text(
+                'Escolha uma opção para continuar:',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 56, 83, 66),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 50),
+              Icon(
+                Icons.handshake,
+                size: 40,
+                color: const Color(0xFF388E3C),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EscolhaMaterial(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.recycling, size: 30),
+                  label: const Text('Coletar Materiais'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4CAF50),
+                    foregroundColor: Colors.white, // texto branco
+                    textStyle: const TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 56, 83, 66),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 50),
-                  Icon(
-                    Icons.handshake,
-                    size: 40,
-                    color: const Color(0xFF388E3C),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const EscolhaMaterial(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.recycling, size: 30),
-                      label: const Text('Coletar Materiais'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4CAF50),
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    
                     ),
                   ),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const DoarMaterial(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.volunteer_activism, size: 30),
-                      label: const Text('Doar Materiais'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF009688),
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Icon(
-                    Icons.favorite,
-                    size: 40,
-                    color: const Color(0xFF009688),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 60,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF81C784),
-                    Color(0xFF388E3C),
-                    Color.fromARGB(255, 74, 110, 76),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
               ),
-              child: Center(
-                child: Image.asset(
-                  'images/logo.png',
-                  fit: BoxFit.contain,
-                  height: 30,
+              const SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const DoarMaterial(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.volunteer_activism, size: 30),
+                  label: const Text('Doar Materiais'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF009688),
+                    foregroundColor: Colors.white, // texto branco
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 10),
+              Icon(
+                Icons.favorite,
+                size: 40,
+                color: const Color(0xFF009688),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
-
 
 
 /*import 'package:flutter/material.dart';

@@ -180,12 +180,7 @@ class _RedefinirPasswordState extends State<RedefinirPassword> {
                   ),
                   child: const Text(
                     'Redefinir Senha',
-                    style: TextStyle(
-                      letterSpacing: 10,
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 25, color: Colors.white)
                   ),
                 ),
               ),

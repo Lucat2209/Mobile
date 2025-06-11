@@ -135,155 +135,121 @@ class _RedefinirNovaSenhaState extends State<RedefinirNovaSenha> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.lock_reset,
-                    size: 120,
-                    color: Color(0xFF388E3C),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.lock_reset,
+                size: 120,
+                color: Color(0xFF388E3C),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Redefinir Senha',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF388E3C),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Informe sua nova senha abaixo:',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _novaSenhaController,
+                obscureText: _obscureNovaSenha,
+                decoration: InputDecoration(
+                  label: const Text('Nova Senha'),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureNovaSenha ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: _toggleNovaSenha,
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Redefinir Senha',
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(35),
+                      right: Radius.circular(35),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(35),
+                      right: Radius.circular(35),
+                    ),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 25),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _confirmaSenhaController,
+                obscureText: _obscureConfirmaSenha,
+                decoration: InputDecoration(
+                  label: const Text('Confirmar Senha'),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureConfirmaSenha ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: _toggleConfirmaSenha,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(35),
+                      right: Radius.circular(35),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 4, color: Color.fromARGB(255, 67, 96, 107)),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(35),
+                      right: Radius.circular(35),
+                    ),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 25),
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                height: 60,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _confirmarRedefinicao,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 4, 167, 59),
+                  ),
+                  child: const Text(
+                    'Confirmar',
                     style: TextStyle(
-                      fontSize: 28,
+                      letterSpacing: 10,
+                      fontSize: 25,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF388E3C),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Informe sua nova senha abaixo:',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: _novaSenhaController,
-                    obscureText: _obscureNovaSenha,
-                    decoration: InputDecoration(
-                      label: const Text('Nova Senha'),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureNovaSenha
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: _toggleNovaSenha,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(35),
-                          right: Radius.circular(35),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(35),
-                          right: Radius.circular(35),
-                        ),
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 25),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: _confirmaSenhaController,
-                    obscureText: _obscureConfirmaSenha,
-                    decoration: InputDecoration(
-                      label: const Text('Confirmar Senha'),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureConfirmaSenha
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: _toggleConfirmaSenha,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(35),
-                          right: Radius.circular(35),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(35),
-                          right: Radius.circular(35),
-                        ),
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 25),
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    height: 60,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _confirmarRedefinicao,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 4, 167, 59),
-                      ),
-                      child: const Text(
-                        'Confirmar',
-                        style: TextStyle(
-                          letterSpacing: 10,
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 60,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF81C784),
-                    Color(0xFF388E3C),
-                    Color.fromARGB(255, 74, 110, 76),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
               ),
-              child: Center(
-                child: Image.asset(
-                  'images/logo.png',
-                  fit: BoxFit.contain,
-                  height: 30,
-                ),
-              ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

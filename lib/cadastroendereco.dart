@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'login.dart'; // Sua tela de login
+import 'login.dart'; // sua tela de login
 
 class CadastroEndereco extends StatefulWidget {
   final String nome;
@@ -16,7 +16,8 @@ class CadastroEndereco extends StatefulWidget {
     required this.email,
     required this.senha,
     required this.telefone,
-    required String role, required String cpf,
+    required String role,
+    required String cpf,
   });
 
   @override
@@ -24,34 +25,20 @@ class CadastroEndereco extends StatefulWidget {
 }
 
 class _CadastroEnderecoState extends State<CadastroEndereco> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _controllerRua = TextEditingController();
   final TextEditingController _controllerNumero = TextEditingController();
   final TextEditingController _controllerCidade = TextEditingController();
   final TextEditingController _controllerEstado = TextEditingController();
   final TextEditingController _controllerCep = TextEditingController();
 
-  bool isButtonEnabled = false;
   bool isLoadingCep = false;
 
   @override
   void initState() {
     super.initState();
     _controllerCep.addListener(_onCepChanged);
-    _controllerRua.addListener(_checkFields);
-    _controllerNumero.addListener(_checkFields);
-    _controllerCidade.addListener(_checkFields);
-    _controllerEstado.addListener(_checkFields);
-    _checkFields();
-  }
-
-  void _checkFields() {
-    setState(() {
-      isButtonEnabled = _controllerCep.text.isNotEmpty &&
-          _controllerRua.text.isNotEmpty &&
-          _controllerNumero.text.isNotEmpty &&
-          _controllerCidade.text.isNotEmpty &&
-          _controllerEstado.text.isNotEmpty;
-    });
   }
 
   void _onCepChanged() {
@@ -59,7 +46,6 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
     if (cep.length == 8 && !isLoadingCep) {
       _fetchAddressFromCep(cep);
     }
-    _checkFields();
   }
 
   Future<void> _fetchAddressFromCep(String cep) async {
@@ -73,10 +59,8 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-
         if (data['erro'] == true) {
           _showError('CEP não encontrado.');
-          _clearAddressFields();
         } else {
           setState(() {
             _controllerRua.text = data['logradouro'] ?? '';
@@ -86,35 +70,22 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
         }
       } else {
         _showError('Erro ao consultar CEP.');
-        _clearAddressFields();
       }
     } catch (e) {
       _showError('Erro ao consultar CEP: $e');
-      _clearAddressFields();
     } finally {
       setState(() {
         isLoadingCep = false;
       });
-      _checkFields();
     }
-  }
-
-  void _clearAddressFields() {
-    setState(() {
-      _controllerRua.text = '';
-      _controllerCidade.text = '';
-      _controllerEstado.text = '';
-    });
   }
 
   void _showError(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
-  // Salva o usuário completo na lista persistente no SharedPreferences
   Future<void> saveUserComplete() async {
     final prefs = await SharedPreferences.getInstance();
-
     final userData = {
       'nome': widget.nome,
       'email': widget.email,
@@ -132,9 +103,7 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
 
     if (usersListString != null) {
       final decoded = jsonDecode(usersListString);
-      if (decoded is List) {
-        usersList = decoded;
-      }
+      if (decoded is List) usersList = decoded;
     }
 
     int index = usersList.indexWhere((u) => u['email'] == widget.email);
@@ -149,6 +118,8 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
   }
 
   Future<void> _salvarEnderecoEExibirPopup() async {
+    if (!_formKey.currentState!.validate()) return;
+
     try {
       await saveUserComplete();
 
@@ -156,58 +127,51 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Cadastro Realizado com Sucesso'),
-            content: const Text('Seu cadastro foi concluído com sucesso!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Login()),
-                  );
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
+        builder: (_) => AlertDialog(
+          title: const Text('Cadastro Realizado com Sucesso'),
+          content: const Text('Seu cadastro foi concluído com sucesso!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao salvar endereço: $e')),
-      );
+      _showError('Erro ao salvar endereço: $e');
     }
   }
 
-  Widget _buildTextField({
+  Widget _buildTextFormField({
     required TextEditingController controller,
     required String label,
-    TextInputType keyboardType = TextInputType.text,
+    required String campo,
+    TextInputType tipo = TextInputType.text,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-      keyboardType: keyboardType,
-      onChanged: (_) => _checkFields(),
+      keyboardType: tipo,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Este campo é obrigatório';
+        }
+        return null;
+      },
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         labelText: label,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-              width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-          borderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(35), right: Radius.circular(35)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(35),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-              width: 4, color: Color.fromARGB(255, 67, 96, 107)),
-          borderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(35), right: Radius.circular(35)),
-        ),
+        errorStyle: const TextStyle(fontSize: 14),
       ),
-      style: const TextStyle(fontSize: 25),
+      style: const TextStyle(fontSize: 20),
     );
   }
 
@@ -252,52 +216,62 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  _buildTextField(
-                    controller: _controllerCep,
-                    label: 'CEP',
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTextField(controller: _controllerRua, label: 'Rua'),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    controller: _controllerNumero,
-                    label: 'Número',
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                      controller: _controllerCidade, label: 'Cidade'),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                      controller: _controllerEstado, label: 'Estado'),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    height: 60,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed:
-                          isButtonEnabled ? _salvarEnderecoEExibirPopup : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 4, 167, 59),
-                      ),
-                      child: const Text(
-                        'Finalizar Cadastro',
-                        style: TextStyle(
-                          letterSpacing: 6,
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    _buildTextFormField(
+                      controller: _controllerCep,
+                      label: 'CEP',
+                      campo: 'CEP',
+                      tipo: TextInputType.number,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextFormField(
+                      controller: _controllerRua,
+                      label: 'Rua',
+                      campo: 'Rua',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextFormField(
+                      controller: _controllerNumero,
+                      label: 'Número',
+                      campo: 'Número',
+                      tipo: TextInputType.number,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextFormField(
+                      controller: _controllerCidade,
+                      label: 'Cidade',
+                      campo: 'Cidade',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextFormField(
+                      controller: _controllerEstado,
+                      label: 'Estado',
+                      campo: 'Estado',
+                    ),
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      height: 60,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _salvarEnderecoEExibirPopup,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 4, 167, 59),
+                        ),
+                        child: const Text(
+                          'Finalizar Cadastro',
+                          style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
+          // Rodapé
           Positioned(
             bottom: 0,
             left: 0,
@@ -329,7 +303,6 @@ class _CadastroEnderecoState extends State<CadastroEndereco> {
     );
   }
 }
-
 
 
 /*import 'dart:convert';

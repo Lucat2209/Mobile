@@ -147,28 +147,7 @@ class _DonationSuccessState extends State<DonationSuccess> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 60,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF81C784),
-              Color(0xFF388E3C),
-              Color.fromARGB(255, 74, 110, 76),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Image.asset(
-            'images/logo.png', 
-            fit: BoxFit.contain,
-            height: 40,
-            errorBuilder: (context, error, stackTrace) => const Icon(Icons.error, color: Colors.white),
-          ),
-        ),
-      ),
+      
     );
   }
 }

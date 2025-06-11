@@ -9,6 +9,12 @@ class MaterialEducativoScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Material Educativo'),
         backgroundColor: const Color(0xFF388E3C),
+        centerTitle: true, // centraliza o título
+        titleTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -16,31 +22,25 @@ class MaterialEducativoScreen extends StatelessWidget {
           ItemReciclavel(
             titulo: '1. Óleo de cozinha usado',
             oQueFazer: 'Biodiesel, sabão, velas.',
-            beneficios:
-                'Evita poluição, protege a água, gera energia renovável.',
-            dinheiro:
-                'Entre R\$ 1,00 a R\$ 3,00 por litro (depende da região e quantidade).',
+            beneficios: 'Evita poluição, protege a água, gera energia renovável.',
+            dinheiro: 'Entre R\$ 1,00 a R\$ 3,00 por litro (depende da região e quantidade).',
           ),
           ItemReciclavel(
             titulo: '2. Tampa de plástico',
             oQueFazer: 'Brinquedos, cadeiras de rodas, móveis.',
-            beneficios:
-                'Diminui o lixo, promove economia circular, ações sociais.',
+            beneficios: 'Diminui o lixo, promove economia circular, ações sociais.',
             dinheiro: 'Entre R\$ 2,00 a R\$ 5,00 por kg.',
           ),
           ItemReciclavel(
             titulo: '3. Garrafa PET',
             oQueFazer: 'Fibras para roupas, novos recipientes, artesanato.',
-            beneficios:
-                'Economiza recursos, reduz poluição, gera renda.',
+            beneficios: 'Economiza recursos, reduz poluição, gera renda.',
             dinheiro: 'Entre R\$ 1,20 a R\$ 2,50 por kg.',
           ),
           ItemReciclavel(
             titulo: '4. Garrafa plástica (HDPE e outros)',
-            oQueFazer:
-                'Utensílios plásticos, peças para construção, artesanato.',
-            beneficios:
-                'Reduz emissão de gases, reutiliza materiais, consciência ambiental.',
+            oQueFazer: 'Utensílios plásticos, peças para construção, artesanato.',
+            beneficios: 'Reduz emissão de gases, reutiliza materiais, consciência ambiental.',
             dinheiro: 'Entre R\$ 1,00 a R\$ 3,00 por kg.',
           ),
         ],
