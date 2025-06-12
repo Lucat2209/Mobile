@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert'; 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,6 +6,7 @@ import 'materialeducativo.dart';
 import 'quemsomos.dart';
 import 'perfil.dart';
 import 'login.dart';
+import 'suporte.dart';  // Import da tela Suporte
 
 class VisualizarAgendamento extends StatefulWidget {
   final String coletorEmail;
@@ -73,6 +74,11 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
                   context,
                   MaterialPageRoute(builder: (_) => const Perfil()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
                   context,
@@ -100,6 +106,13 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
                 child: ListTile(
                   leading: Icon(Icons.account_circle),
                   title: Text('Perfil'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(
@@ -145,6 +158,7 @@ class _VisualizarAgendamentoState extends State<VisualizarAgendamento> {
     );
   }
 }
+
 
 /*// visualizar_agendamento.dart
 import 'dart:convert';

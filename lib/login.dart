@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:greencode/redefinirpassword.dart';
 import 'package:greencode/Cadastro.dart';
+import 'package:greencode/suporte.dart';
 import 'package:greencode/transitionmaterial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dadosbase.dart';
-import 'materialeducativo.dart';
-import 'quemsomos.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -61,7 +60,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Remove a seta de voltar
+        automaticallyImplyLeading: false,
         elevation: 0,
         title: const Text(
           'Green Code',
@@ -119,6 +118,16 @@ class _LoginState extends State<Login> {
                 title: const Text('Quem Somos'),
                 onTap: () {
                   Navigator.pushNamed(context, '/quem_somos');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.support_agent),
+                title: const Text('Suporte'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SuportePage()),
+                  );
                 },
               ),
             ],

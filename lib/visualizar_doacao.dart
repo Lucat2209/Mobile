@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'perfil.dart';
 import 'materialeducativo.dart';
 import 'quemsomos.dart';
 import 'login.dart';
+import 'suporte.dart';
 
-// Modelo simples de Doacao
 class Doacao {
   final String nomeDoador;
   final String material;
@@ -29,77 +28,37 @@ class ListDoador extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Doações',
-          style: TextStyle(fontSize: 30, color: Colors.white),
-        ),
+        title: const Text('Doações', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.menu, color: Colors.white),
             onSelected: (value) {
               if (value == 'perfil') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Perfil()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const Perfil()));
               } else if (value == 'material_educativo') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()));
               } else if (value == 'quem_somos') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const QuemSomosPage()));
+              } else if (value == 'suporte') {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SuportePage()));
               } else if (value == 'sair') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Login()),
-                );
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Login()));
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem<String>(
-                value: 'perfil',
-                child: ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: Text('Perfil'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'material_educativo',
-                child: ListTile(
-                  leading: Icon(Icons.book),
-                  title: Text('Material Educativo'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'quem_somos',
-                child: ListTile(
-                  leading: Icon(Icons.info),
-                  title: Text('Quem Somos'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'sair',
-                child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Sair'),
-                ),
-              ),
+              const PopupMenuItem(value: 'perfil', child: ListTile(leading: Icon(Icons.account_circle), title: Text('Perfil'))),
+              const PopupMenuItem(value: 'material_educativo', child: ListTile(leading: Icon(Icons.book), title: Text('Material Educativo'))),
+              const PopupMenuItem(value: 'quem_somos', child: ListTile(leading: Icon(Icons.info), title: Text('Quem Somos'))),
+              const PopupMenuItem(value: 'suporte', child: ListTile(leading: Icon(Icons.support_agent), title: Text('Suporte'))),
+              const PopupMenuItem(value: 'sair', child: ListTile(leading: Icon(Icons.logout), title: Text('Sair'))),
             ],
-          ),
+          )
         ],
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFF81C784),
-                Color(0xFF388E3C),
-                Color.fromARGB(255, 74, 110, 76),
-              ],
+              colors: [Color(0xFF81C784), Color(0xFF388E3C)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -107,46 +66,25 @@ class ListDoador extends StatelessWidget {
         ),
       ),
       body: doacoes.isEmpty
-          ? const Center(
-              child: Text(
-                'Nenhuma doação registrada.',
-                style: TextStyle(fontSize: 18),
-              ),
-            )
+          ? const Center(child: Text('Nenhuma doação registrada.', style: TextStyle(fontSize: 18)))
           : ListView.builder(
               itemCount: doacoes.length,
               itemBuilder: (context, index) {
                 final doacao = doacoes[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 3,
+                  margin: const EdgeInsets.all(12),
                   child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: const Color(0xFF81C784),
-                      child: Text(
-                        doacao.nomeDoador[0].toUpperCase(),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
                     title: Text(doacao.nomeDoador),
-                    subtitle: Text(
-                      '${doacao.material} — Quantidade: ${doacao.quantidade}\nData: ${_formatarData(doacao.data)}',
-                    ),
-                    isThreeLine: true,
+                    subtitle: Text('${doacao.material} - Quantidade: ${doacao.quantidade}'),
+                    trailing: Text('${doacao.data.day}/${doacao.data.month}/${doacao.data.year}'),
                   ),
                 );
               },
             ),
     );
   }
-
-  String _formatarData(DateTime data) {
-    return '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}';
-  }
 }
+
 
 
 /*import 'package:flutter/material.dart';

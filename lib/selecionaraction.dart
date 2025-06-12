@@ -6,7 +6,8 @@ import 'perfil.dart';
 import 'login.dart';
 import 'doarmaterial.dart';
 import 'quemsomos.dart';
-import 'materialeducativo.dart';  // Importação da página MaterialEducativo
+import 'materialeducativo.dart';
+import 'suporte.dart'; // Importação da tela Suporte
 
 class Selecionaraction extends StatelessWidget {
   const Selecionaraction({Key? key}) : super(key: key);
@@ -65,6 +66,11 @@ class Selecionaraction extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 logout(context);
               }
@@ -90,6 +96,13 @@ class Selecionaraction extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(Icons.school),
                   title: Text('Material educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.help_outline),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(
@@ -147,7 +160,7 @@ class Selecionaraction extends StatelessWidget {
                   label: const Text('Coletar Materiais'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4CAF50),
-                    foregroundColor: Colors.white, // texto branco
+                    foregroundColor: Colors.white,
                     textStyle: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -172,7 +185,7 @@ class Selecionaraction extends StatelessWidget {
                   label: const Text('Doar Materiais'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF009688),
-                    foregroundColor: Colors.white, // texto branco
+                    foregroundColor: Colors.white,
                     textStyle: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

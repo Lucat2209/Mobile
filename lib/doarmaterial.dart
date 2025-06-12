@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';  
 import 'login.dart';
 import 'perfil.dart';
 import 'donationsucess.dart'; // Tela de sucesso da doação
 import 'materialeducativo.dart';  // Import da página Material Educativo
 import 'quemsomos.dart';          // Import da página Quem Somos
 import 'visualizar_doacao.dart';
+import 'suporte.dart'; // Import da tela Suporte (adicione o arquivo se não existir)
 
 // Novas telas básicas para "Material Educativo" e "Quem Somos"
 class MaterialEducativo extends StatelessWidget {
@@ -235,6 +236,11 @@ class _DoarMaterialState extends State<DoarMaterial> {
                   context,
                   MaterialPageRoute(builder: (_) => const QuemSomosPage()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
                   context,
@@ -270,6 +276,13 @@ class _DoarMaterialState extends State<DoarMaterial> {
                 child: ListTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Quem somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(

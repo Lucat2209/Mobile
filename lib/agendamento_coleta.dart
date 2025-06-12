@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -7,6 +7,7 @@ import 'perfil.dart';
 import 'visualizar_agendamento.dart';
 import 'materialeducativo.dart';  // Import da página Material Educativo
 import 'quemsomos.dart';          // Import da página Quem Somos
+import 'suporte.dart';            // Import da página Suporte
 
 class AgendamentoColeta extends StatefulWidget {
   final String nomePessoa;
@@ -198,6 +199,11 @@ class _AgendamentoColetaState extends State<AgendamentoColeta> {
                   context,
                   MaterialPageRoute(builder: (_) => const QuemSomosPage()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
                   context,
@@ -233,6 +239,13 @@ class _AgendamentoColetaState extends State<AgendamentoColeta> {
                 child: ListTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Quem somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(

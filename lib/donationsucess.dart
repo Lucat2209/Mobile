@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:greencode/suporte.dart'; 
 import 'login.dart';
 import 'perfil.dart';
 import 'visualizar_doacao.dart';
 import 'materialeducativo.dart';
 import 'quemsomos.dart';
+// Importe sua tela Suporte se necessário
 
 class DonationSuccess extends StatefulWidget {
   const DonationSuccess({super.key});
@@ -15,7 +17,7 @@ class DonationSuccess extends StatefulWidget {
 class _DonationSuccessState extends State<DonationSuccess> {
   @override
   Widget build(BuildContext context) {
-    // Exemplo de lista de doações fictícias
+    // Lista fictícia de doações
     final List<Doacao> doacoes = [
       Doacao(
         nomeDoador: 'João',
@@ -85,14 +87,56 @@ class _DonationSuccessState extends State<DonationSuccess> {
                   context,
                   MaterialPageRoute(builder: (context) => const QuemSomosPage()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SuportePage()),
+                );
               }
             },
             itemBuilder: (context) => const [
-              PopupMenuItem(value: 'perfil', child: Text('Perfil')),
-              PopupMenuItem(value: 'visualizar', child: Text('Visualizar Doações')),
-              PopupMenuItem(value: 'material_educativo', child: Text('Material Educativo')),
-              PopupMenuItem(value: 'quem_somos', child: Text('Quem Somos')),
-              PopupMenuItem(value: 'logoff', child: Text('Logoff')),
+              PopupMenuItem<String>(
+                value: 'perfil',
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  title: Text('Perfil'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'visualizar',
+                child: ListTile(
+                  leading: Icon(Icons.list_alt),
+                  title: Text('Visualizar Doações'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.school),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info_outline),
+                  title: Text('Quem Somos'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'logoff',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Logoff'),
+                ),
+              ),
             ],
           )
         ],
@@ -147,11 +191,9 @@ class _DonationSuccessState extends State<DonationSuccess> {
           ),
         ),
       ),
-      
     );
   }
 }
-
 
 
 /*import 'package:flutter/material.dart';

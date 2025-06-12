@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'agendamento_coleta.dart';
@@ -7,6 +7,7 @@ import 'login.dart';
 import 'visualizar_agendamento.dart';
 import 'materialeducativo.dart';
 import 'quemsomos.dart';
+import 'suporte.dart'; // <-- Importa a tela suporte
 
 class PerfisCorrespondentes extends StatefulWidget {
   final List<String> materiaisSelecionados;
@@ -95,6 +96,11 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                   context,
                   MaterialPageRoute(builder: (_) => const QuemSomosPage()),
                 );
+              } else if (value == 'suporte') {  // <-- Opção suporte
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
                   context,
@@ -129,6 +135,13 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
                 child: ListTile(
                   leading: Icon(Icons.info),
                   title: Text('Quem Somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',  // <-- Item de menu suporte
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(
@@ -304,7 +317,6 @@ class _PerfisCorrespondentesState extends State<PerfisCorrespondentes> {
     );
   }
 }
-
 
 
 /*import 'package:flutter/material.dart';

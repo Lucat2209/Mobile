@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'login.dart';
 import 'perfil.dart';
 import 'visualizar_agendamento.dart';
 import 'listdoador.dart';
 import 'materialeducativo.dart';
 import 'quemsomos.dart';
+import 'suporte.dart'; // Import da tela Suporte
 
 class EscolhaMaterial extends StatefulWidget {
   const EscolhaMaterial({super.key});
@@ -126,6 +128,11 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
                   context,
                   MaterialPageRoute(builder: (context) => const QuemSomosPage()),
                 );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
+                );
               } else if (value == 'sair') {
                 logout(context);
               }
@@ -158,6 +165,13 @@ class _EscolhaMaterialState extends State<EscolhaMaterial> {
                 child: ListTile(
                   leading: Icon(Icons.info),
                   title: Text('Quem Somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.help_outline),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(
