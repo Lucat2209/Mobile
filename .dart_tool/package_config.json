@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "async",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/async-2.12.0",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/async-2.13.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -45,7 +45,7 @@
     },
     {
       "name": "fake_async",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/fake_async-1.3.2",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/fake_async-1.3.3",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -69,9 +69,9 @@
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/flutter_lints-4.0.0",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/flutter_lints-6.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.8"
     },
     {
       "name": "flutter_test",
@@ -111,7 +111,7 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/leak_tracker-10.0.8",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/leak_tracker-10.0.9",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -129,9 +129,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/lints-4.0.0",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/lints-6.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.8"
     },
     {
       "name": "matcher",
@@ -303,7 +303,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/vm_service-14.3.1",
+      "rootUri": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache/hosted/http%2558%2547%2547pub.dartlang.org/vm_service-15.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -326,10 +326,9 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-06-04T23:57:24.752182Z",
   "generator": "pub",
-  "generatorVersion": "3.7.2",
+  "generatorVersion": "3.8.0",
   "flutterRoot": "file:///D:/src/flutter",
-  "flutterVersion": "3.29.3",
+  "flutterVersion": "3.32.0",
   "pubCache": "file:///C:/Users/rm96060/AppData/Local/Pub/Cache"
 }

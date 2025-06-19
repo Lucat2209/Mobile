@@ -1,4 +1,202 @@
 import 'package:flutter/material.dart';
+import 'package:greencode/suporte.dart'; 
+import 'login.dart';
+import 'perfil.dart';
+import 'visualizar_doacao.dart';
+import 'materialeducativo.dart';
+import 'quemsomos.dart';
+// Importe sua tela Suporte se necessário
+
+class DonationSuccess extends StatefulWidget {
+  const DonationSuccess({super.key});
+
+  @override
+  State<DonationSuccess> createState() => _DonationSuccessState();
+}
+
+class _DonationSuccessState extends State<DonationSuccess> {
+  @override
+  Widget build(BuildContext context) {
+    // Lista fictícia de doações
+    final List<Doacao> doacoes = [
+      Doacao(
+        nomeDoador: 'João',
+        material: 'Óleo',
+        quantidade: 5,
+        data: DateTime.now(),
+      ),
+      Doacao(
+        nomeDoador: 'Maria',
+        material: 'Óleo',
+        quantidade: 10,
+        data: DateTime.now().subtract(const Duration(days: 1)),
+      ),
+    ];
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFE8F5E9),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'Green Code',
+          style: TextStyle(fontSize: 35, color: Colors.white),
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF81C784),
+                Color(0xFF388E3C),
+                Color.fromARGB(255, 74, 110, 76),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'perfil') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Perfil()),
+                );
+              } else if (value == 'logoff') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              } else if (value == 'visualizar') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListDoador(doacoes: doacoes),
+                  ),
+                );
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QuemSomosPage()),
+                );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SuportePage()),
+                );
+              }
+            },
+            itemBuilder: (context) => const [
+              PopupMenuItem<String>(
+                value: 'perfil',
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  title: Text('Perfil'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'visualizar',
+                child: ListTile(
+                  leading: Icon(Icons.list_alt),
+                  title: Text('Visualizar Doações'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.school),
+                  title: Text('Material Educativo'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info_outline),
+                  title: Text('Quem Somos'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'logoff',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Logoff'),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Doação Cadastrada com Sucesso!!!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF388E3C),
+                ),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListDoador(doacoes: doacoes),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 4, 167, 59),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                  ),
+                  child: const Text(
+                    'Acessar Lista de Coletores Interessados',
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+/*import 'package:flutter/material.dart';
 import 'login.dart';
 import 'perfil.dart';
 import 'visualizar_doacao.dart';
@@ -158,7 +356,7 @@ class _DonationSuccessState extends State<DonationSuccess> {
       ),
     );
   }
-}
+}*/
 
 
 

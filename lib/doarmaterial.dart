@@ -1,8 +1,52 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';  
 import 'login.dart';
 import 'perfil.dart';
-import 'donationsucess.dart'; // IMPORTAÇÃO da tela de sucesso
+import 'donationsucess.dart'; // Tela de sucesso da doação
+import 'materialeducativo.dart';  // Import da página Material Educativo
+import 'quemsomos.dart';          // Import da página Quem Somos
 import 'visualizar_doacao.dart';
+import 'suporte.dart'; // Import da tela Suporte (adicione o arquivo se não existir)
+
+// Novas telas básicas para "Material Educativo" e "Quem Somos"
+class MaterialEducativo extends StatelessWidget {
+  const MaterialEducativo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Material Educativo'),
+        backgroundColor: const Color(0xFF388E3C),
+      ),
+      body: const Center(
+        child: Text(
+          'Conteúdo do Material Educativo',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}
+
+class QuemSomos extends StatelessWidget {
+  const QuemSomos({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Quem Somos'),
+        backgroundColor: const Color(0xFF388E3C),
+      ),
+      body: const Center(
+        child: Text(
+          'Informações sobre quem somos',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}
 
 class DoarMaterial extends StatefulWidget {
   const DoarMaterial({Key? key}) : super(key: key);
@@ -36,7 +80,6 @@ class _DoarMaterialState extends State<DoarMaterial> {
     }
   }
 
-  // AQUI o método corrigido que abre o diálogo e atualiza seleção:
   void _selecionarQuantidade(String material) async {
     final isOleo = material == 'Óleo de cozinha';
     final unidade = isOleo ? 'litros' : 'kg';
@@ -119,7 +162,6 @@ class _DoarMaterialState extends State<DoarMaterial> {
       const SnackBar(content: Text('Doação realizada com sucesso!')),
     );
 
-    // Limpa as seleções
     setState(() {
       for (var material in _materiaisSelecionados.keys) {
         _materiaisSelecionados[material] = false;
@@ -127,7 +169,6 @@ class _DoarMaterialState extends State<DoarMaterial> {
       }
     });
 
-    // Navega para a tela de sucesso da doação
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const DonationSuccess()),
@@ -182,10 +223,23 @@ class _DoarMaterialState extends State<DoarMaterial> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ListDoador(
-                      doacoes: [],
-                    ),
+                    builder: (_) => ListDoador(doacoes: []),
                   ),
+                );
+              } else if (value == 'material_educativo') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MaterialEducativoScreen()),
+                );
+              } else if (value == 'quem_somos') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuemSomosPage()),
+                );
+              } else if (value == 'suporte') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SuportePage()),
                 );
               } else if (value == 'sair') {
                 Navigator.pushReplacement(
@@ -208,6 +262,27 @@ class _DoarMaterialState extends State<DoarMaterial> {
                 child: ListTile(
                   leading: Icon(Icons.list_alt),
                   title: Text('Visualizar Doações'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'material_educativo',
+                child: ListTile(
+                  leading: Icon(Icons.school),
+                  title: Text('Material educativo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'quem_somos',
+                child: ListTile(
+                  leading: Icon(Icons.info_outline),
+                  title: Text('Quem somos'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'suporte',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Suporte'),
                 ),
               ),
               const PopupMenuItem<String>(
